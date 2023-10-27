@@ -15,7 +15,12 @@ describe('SignUpComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('has Sign Up header', () => {
+    const signUp = fixture.nativeElement as HTMLElement;
+    const h1 = signUp.querySelector('h1');
+    expect(h1?.textContent).toBe('Sign Up')
+  })
 });
+
+
+
