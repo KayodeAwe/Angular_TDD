@@ -10,17 +10,17 @@ describe('SignUpComponent', () => {
     });
     it('has username input', async () => {
       await render(SignUpComponent);
-      expect(screen.getByLabelText('Username')).toBeInTheDocument
+      expect(screen.getByLabelText('Username')).toBeInTheDocument()
     });
 
     it('has email input', async () => {
       await render(SignUpComponent);
-      expect(screen.getByLabelText('E-mail')).toBeInTheDocument
+      expect(screen.getByLabelText('E-mail')).toBeInTheDocument()
     });
 
     it('has password input', async () => {
       await render(SignUpComponent);
-      expect(screen.getByLabelText('Password')).toBeInTheDocument
+      expect(screen.getByLabelText('Password')).toBeInTheDocument()
     });
 
     it('has password type for password input', async () => {
@@ -31,7 +31,7 @@ describe('SignUpComponent', () => {
 
     it('has password Repeat input', async () => {
       await render(SignUpComponent);
-      expect(screen.getByLabelText('Password Repeat')).toBeInTheDocument
+      expect(screen.getByLabelText('Password Repeat')).toBeInTheDocument()
     });
 
     it('has password type for password Repeat input', async () => {
