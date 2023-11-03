@@ -75,6 +75,23 @@ describe('SignUpComponent', () => {
       expect(button?.disabled).toBeTruthy();
     })
   })
+
+  describe('interactions', () => {
+    it('enables the button when the password and password repeat fields have the same values', ()=>{
+      const signUp = fixture.nativeElement as HTMLElement;
+      const passwordinput= signUp.querySelector('input[id="password"]') as HTMLInputElement;
+      const passwordRepeatinput= signUp.querySelector('input[id="passwordRepeat"]') as HTMLInputElement;
+      passwordinput.value = "P4ssword";
+      passwordinput.dispatchEvent(new Event('input'));
+      passwordRepeatinput.value="P4ssword";
+      passwordRepeatinput.dispatchEvent(new Event('input'));
+      //
+      fixture.detectChanges();
+      const button = signUp.querySelector('button');
+      expect(button?.disabled).toBeFalsy();
+    })
+
+  })
 });
 
 
