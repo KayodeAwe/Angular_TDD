@@ -90,6 +90,34 @@ describe('SignUpComponent', () => {
       const button = signUp.querySelector('button');
       expect(button?.disabled).toBeFalsy();
     })
+    it('send username, email and password to backend after clicking the button', ()=>{
+      const spy = spyOn(window, 'fetch')
+
+      const signUp = fixture.nativeElement as HTMLElement;
+      const usernameinput= signUp.querySelector('input[id="username"]') as HTMLInputElement;
+      const emailinput= signUp.querySelector('input[id="email"]') as HTMLInputElement;
+      const passwordinput= signUp.querySelector('input[id="password"]') as HTMLInputElement;
+      const passwordRepeatinput= signUp.querySelector('input[id="passwordRepeat"]') as HTMLInputElement;
+      usernameinput.value = "user1";
+      usernameinput.dispatchEvent(new Event('input'));
+      emailinput.value = "user1@mail.com";
+      emailinput.dispatchEvent(new Event('input'));
+      passwordinput.value = "P4ssword";
+      passwordinput.dispatchEvent(new Event('input'));
+      passwordRepeatinput.value="P4ssword";
+      passwordRepeatinput.dispatchEvent(new Event('input'));
+      //
+      fixture.detectChanges();
+      const button = signUp.querySelector('button');
+      button?.click();
+      const args = spy.calls.allArgs()[0]
+      const secondParam = args[1] as RequestInit
+      expect(secondParam.body).toEqual(JSON.stringify({
+        username: "user1",
+        email: "user1@mail.com",
+        password: "P4ssword"
+      }))
+    })
 
   })
 });
