@@ -1,15 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 import { SignUpComponent } from './sign-up.component';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
 
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [SignUpComponent],
+      imports:[HttpClientTestingModule]
+    }).compileComponents();
+  });
+
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [SignUpComponent]
-    });
     fixture = TestBed.createComponent(SignUpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -91,7 +95,7 @@ describe('SignUpComponent', () => {
       expect(button?.disabled).toBeFalsy();
     })
     it('send username, email and password to backend after clicking the button', ()=>{
-      const spy = spyOn(window, 'fetch')
+      let httpTestingController = TestBed.inject(HttpTestingController)
 
       const signUp = fixture.nativeElement as HTMLElement;
       const usernameinput= signUp.querySelector('input[id="username"]') as HTMLInputElement;
@@ -110,13 +114,13 @@ describe('SignUpComponent', () => {
       fixture.detectChanges();
       const button = signUp.querySelector('button');
       button?.click();
-      const args = spy.calls.allArgs()[0]
-      const secondParam = args[1] as RequestInit
-      expect(secondParam.body).toEqual(JSON.stringify({
+      const req = httpTestingController.expectOne("/api/1.0/users")
+      const requestBody = req.request.body;
+      expect(requestBody).toEqual({
         username: "user1",
         email: "user1@mail.com",
         password: "P4ssword"
-      }))
+      })
     })
 
   })
