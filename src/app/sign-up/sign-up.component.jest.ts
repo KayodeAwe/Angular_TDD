@@ -72,7 +72,7 @@ describe('SignUpComponent', () => {
         const button = screen.getByRole('button', {name: 'Sign Up'});
         expect(button).toBeEnabled();
     })
-    it('enables the button when the password and password repeat fields have the same values', async () => {
+    it('sends username, email and password to backend after clicking the button', async () => {
         await setup()
 
         let httpTestingController = TestBed.inject(HttpTestingController)
