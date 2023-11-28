@@ -10,7 +10,6 @@ let requestBody:any
 const server = setupServer(
   http.post('/api/1.0/users', async({request}) => {
     requestBody = await request.json()
-    console.log('Captured a "POST /posts" request')
     return new HttpResponse(null, {
       status: 200,
     })
@@ -102,8 +101,12 @@ describe('SignUpComponent', () => {
         const button = screen.getByRole('button', {name: 'Sign Up'});
         await userEvent.click(button);
 
-        waitFor(() => {
-          expect(requestBody).toBeTruthy()
+        await waitFor(() => {
+          expect(requestBody).toEqual({
+            username: "user1",
+            email: "user1@mail.com",
+            password: "P4ssword"
+          })
         })
     })
   })
