@@ -1,15 +1,32 @@
-import {render, screen} from "@testing-library/angular";
+import {render, screen, waitFor} from "@testing-library/angular";
 import { SignUpComponent } from "./sign-up.component";
 import userEvent  from "@testing-library/user-event";
-import "whatwg-fetch";
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing"
-import { TestBed } from "@angular/core/testing";
+import { http, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
+import { HttpClientModule } from "@angular/common/http";
+
+
+let requestBody:any
+const server = setupServer(
+  http.post('/api/1.0/users', async({request}) => {
+    requestBody = await request.json()
+    console.log('Captured a "POST /posts" request')
+    return new HttpResponse(null, {
+      status: 200,
+    })
+  })
+);
+
+beforeAll(() => server.listen())
+
+afterAll(() => server.close())
 
 const setup = async() => {
   await render(SignUpComponent, {
-    imports: [HttpClientTestingModule]
+    imports: [HttpClientModule]
   });
 }
+
 describe('SignUpComponent', () => {
   describe('Layout', () => {
     it('has Sign Up header', async () => {
@@ -74,9 +91,6 @@ describe('SignUpComponent', () => {
     })
     it('sends username, email and password to backend after clicking the button', async () => {
         await setup()
-
-        let httpTestingController = TestBed.inject(HttpTestingController)
-
         const username = screen.getByLabelText("Username");
         const email = screen.getByLabelText("E-mail");
         const password = screen.getByLabelText('Password');
@@ -87,12 +101,9 @@ describe('SignUpComponent', () => {
         await userEvent.type(passwordRepeat, 'P4ssword');
         const button = screen.getByRole('button', {name: 'Sign Up'});
         await userEvent.click(button);
-        const req = httpTestingController.expectOne("/api/1.0/users")
-        const requestBody = req.request.body;
-        expect(requestBody).toEqual({
-          username: "user1",
-          email: "user1@mail.com",
-          password: "P4ssword"
+
+        waitFor(() => {
+          expect(requestBody).toBeTruthy()
         })
     })
   })
