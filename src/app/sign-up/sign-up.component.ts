@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
+import { UserService } from '../core/user.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -11,11 +12,12 @@ export class SignUpComponent implements OnInit{
   email = '';
   password = '';
   passwordRepeat = '';
+  apiRequest = false;
+  signUpSuccess = false;
 
-  constructor(private httpClient : HttpClient) {}
+  constructor(private userservice : UserService) {}
 
   ngOnInit():void{
-
   }
 
   onUsernameChange(event:Event){
@@ -34,10 +36,12 @@ export class SignUpComponent implements OnInit{
     return this.password? (this.password !== this.passwordRepeat) : true
   }
   onClickSignUp(){
-    this.httpClient.post("/api/1.0/users", {
+    this.apiRequest = true;
+    this.userservice.signUp({
       username:this.username,
       email:this.email,
-      password:this.password
-    }).subscribe(() => {})
+      password:this.password}).subscribe(() => {
+      this.signUpSuccess = true
+    })
   }
 }

@@ -1,5 +1,5 @@
-<div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
-  <div class="card">
+<div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2" *ngIf="!signUpSuccess; else successMessage">
+  <div class="card" data-testid="form-sign-up">
     <div class="card-header text-center">
       <h1>Sign Up</h1>
     </div>
@@ -21,8 +21,16 @@
         <input class="form-control" type="password" id="passwordRepeat" (input)="onPasswordRepeatChange($event)"/>
       </div>
       <div class="text-center">
-          <button class="btn btn-primary" [disabled]="isDisabled()">Sign Up</button>
+        <app-button
+        [disabled]="isDisabled()"
+        [apiRequest]="apiRequest"
+        >Sign Up</app-button>
       </div>
     </form>
   </div>
 </div>
+<ng-template #successMessage>
+  <app-alert>
+    Please check your email to activate your account
+  </app-alert>
+</ng-template>
