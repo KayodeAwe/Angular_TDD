@@ -6,19 +6,31 @@
     <form class="card-body" (submit)="onClickSignUp(); $event.preventDefault()">
       <div class="mb-3">
         <label class="form-label" for="username">Username</label>
-        <input class="form-control" id="username" (input)="onUsernameChange($event)"/>
+        <input class="form-control" id="username"
+        name="username"
+        [(ngModel)]="username"
+        />
       </div>
       <div class="mb-3">
         <label class="form-label" for="email">E-mail</label>
-        <input class="form-control" id="email" (input)="onEmailChange($event)"/>
+        <input class="form-control" id="email"
+        name="email"
+        [(ngModel)]="email"
+        />
       </div>
       <div class="mb-3">
         <label class="form-label" for="password">Password</label>
-        <input class="form-control" type="password" id="password" (input)="onPasswordChange($event)" />
+        <input class="form-control" type="password" id="password"
+        name="password"
+        [(ngModel)]="password"
+        />
       </div>
       <div class="mb-3">
         <label class="form-label" for="passwordRepeat">Password Repeat</label>
-        <input class="form-control" type="password" id="passwordRepeat" (input)="onPasswordRepeatChange($event)"/>
+        <input class="form-control" type="password" id="passwordRepeat"
+        name="passwordRepeat"
+        [(ngModel)]="passwordRepeat"
+        />
       </div>
       <div class="text-center">
         <app-button

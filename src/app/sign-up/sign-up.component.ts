@@ -19,18 +19,7 @@ export class SignUpComponent implements OnInit{
   ngOnInit():void{
   }
 
-  onUsernameChange(event:Event){
-    this.username = (event.target as HTMLInputElement).value
-  }
-  onEmailChange(event:Event){
-    this.email = (event.target as HTMLInputElement).value
-  }
-  onPasswordChange(event:Event){
-    this.password = (event.target as HTMLInputElement).value
-  }
-  onPasswordRepeatChange(event:Event){
-    this.passwordRepeat = (event.target as HTMLInputElement).value
-  }
+
   isDisabled(){
     return this.password? (this.password !== this.passwordRepeat) : true
   }
